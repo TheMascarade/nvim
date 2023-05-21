@@ -8,6 +8,7 @@ return require('packer').startup(function(use)
     use 'tanvirtin/monokai.nvim'
     use 'nvim-tree/nvim-web-devicons'
     use "folke/zen-mode.nvim"
+    use {"ellisonleao/glow.nvim", config = function() require("glow").setup() end}
     -- Lua
     use {
         "folke/trouble.nvim",

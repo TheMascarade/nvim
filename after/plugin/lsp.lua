@@ -1,4 +1,5 @@
 local lspconfig = require("lspconfig")
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
 local lsp = require('lsp-zero').preset({
@@ -9,7 +10,7 @@ local lsp = require('lsp-zero').preset({
 
 lsp.on_attach(function(client, bufnr)
     local opts = {buffer = bufnr, remap = false}
-    
+
     vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
@@ -52,11 +53,21 @@ cmp.setup({
     };
 })
 
-lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-lspconfig.rust_analyzer.setup {
-    cmd = {
-        "rustup", "run", "stable", "rust-analyzer",
-    }
-}
 
 lsp.setup()
+
+lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+
+lspconfig.rust_analyzer.setup {
+    capabilities = capabilities,
+    cmd = {
+        "rustup", "run", "stable", "rust-analyzer",
+    },
+}
+
+lspconfig.marksman.setup {
+    capabilities = capabilities,
+    cmd = {
+        "marksman", "server"
+    }
+}
